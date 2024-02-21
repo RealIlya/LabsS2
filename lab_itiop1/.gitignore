@@ -1,4 +1,5 @@
 .vscode/*
+.vscode/tasks.json
 main
 
 !main.cpp
