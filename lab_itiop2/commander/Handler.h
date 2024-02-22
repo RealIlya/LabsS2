@@ -1,6 +1,5 @@
 #ifndef HANDLER_H
 #define HANDLER_H
-#include "Executor.h"
 
 template <typename T>
 class Handler
@@ -12,7 +11,7 @@ public:
     Handler();
     ~Handler();
 
-    virtual void start(T stopCommand) = 0;
+    void start(T stopCommand);
     bool executeCommand(T call);
 };
 
