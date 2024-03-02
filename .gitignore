@@ -1,5 +1,5 @@
-.vscode/*
-.vscode/tasks.json
+.vscode
 */main
+testing
 
 !*/main.cpp

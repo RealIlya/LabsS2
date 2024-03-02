@@ -1,7 +1,7 @@
 #include <iostream>
-#include "proto/queue.h"
+#include "proto/Queue.h"
 
-queue::queue(int length)
+Queue::Queue(int length)
 {
     beg = 0;
     end = -1;
@@ -9,40 +9,38 @@ queue::queue(int length)
     data = new char[length];
 }
 
-queue::~queue()
+Queue::~Queue()
 {
     delete data;
     data = nullptr;
 }
 
-bool queue::empty()
+bool Queue::empty()
 {
     return end == -1;
 }
 
-void queue::print(std::ostream &ostream)
+void Queue::print(std::ostream &ostream)
 {
     if (empty())
     {
-        ostream << "Queue is empty" << std::endl;
+        ostream << "Queue is empty";
         return;
     }
 
     for (int i = 0; i < length; i++)
         ostream << data[i] << " ";
-    ostream << std::endl;
 }
 
-char queue::pop()
+char Queue::pop()
 {
     char b = data[beg];
     data[beg] = '\0';
 
-    // in case of preudo-fulness
+    // in case of pseudo-fulness
     if (end == length - 1)
     {
-
-    } 
+    }
 
     if (beg == end)
     {
@@ -54,7 +52,7 @@ char queue::pop()
     return b;
 }
 
-bool queue::pop(char &out)
+bool Queue::pop(char &out)
 {
     if (empty())
         return 0;
@@ -63,7 +61,7 @@ bool queue::pop(char &out)
     return 1;
 }
 
-bool queue::push(char value)
+bool Queue::push(char value)
 {
     if (end == length - 1)
         return 0;
