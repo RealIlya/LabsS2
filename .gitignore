@@ -1,6 +1,9 @@
-.vscode/*
-.vscode/tasks.json
+.vscode
 */main
+<<<<<<< HEAD
 */*.exe
+=======
+testing
+>>>>>>> db494945ff30ef6d203725f23de0e7e8e46b30eb
 
 !*/main.cpp

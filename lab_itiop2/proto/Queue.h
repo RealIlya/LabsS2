@@ -1,16 +1,18 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-#include "operations.h"
+#include "IOperations.h"
 
-struct queue : public operations
+class Queue : public IOperations
 {
+private:
     int beg = 0;
     int end = -1;
     int length;
     char *data;
 
-    queue(int length);
-    ~queue();
+public:
+    Queue(int length);
+    ~Queue();
 
     bool empty() override;
     void print(std::ostream &ostream);

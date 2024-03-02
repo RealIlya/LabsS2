@@ -1,37 +1,38 @@
+<<<<<<< HEAD
 #include "commander/Handler.h"
 #include "proto/commands.h"
 
 class MyHandler : public Handler
+=======
+#include "commander/Line.h"
+#include "proto/Terminal.h"
+#include "proto/Stack.h"
+#include <iostream>
+
+class MyHandler
+>>>>>>> db494945ff30ef6d203725f23de0e7e8e46b30eb
 {
     std::ostream &ostream;
     std::istream &istream;
-    Commands *commands;
 
 public:
-    MyHandler(std::ostream &ostream, std::istream &istream) : ostream{ostream}, istream{istream}, Handler()
+    MyHandler(std::ostream &ostream, std::istream &istream) : ostream{ostream}, istream{istream}
     {
-        commands = new Commands(this->ostream, this->istream);
     }
 
     ~MyHandler()
     {
-        delete commands;
-        commands = nullptr;
     }
 
     void start() override
     {
-        executor->addCommand("help", new Command(std::bind(&Commands::help_Command, commands)));
-        executor->addCommand("switch", new Command(std::bind(&Commands::switchMode_Command, commands)));
-        executor->addCommand("push", new Command(std::bind(&Commands::push_Command, commands)));
-        executor->addCommand("pop", new Command(std::bind(&Commands::pop_Command, commands)));
-        executor->addCommand("empty", new Command(std::bind(&Commands::checkEmpty_Command, commands)));
-        executor->addCommand("print", new Command(std::bind(&Commands::print_Command, commands)));
-
-        std::string command;
+        Terminal *invoker = new Terminal(new Stack(4), ostream);
+        Line *line;
+        std::string str;
 
         while (true)
         {
+<<<<<<< HEAD
             istream >> command;
             if (commands->checkStopCommand(command))
                 break;
@@ -40,6 +41,11 @@ public:
             {
                 ostream << "Incorrect command, try again >> ";
             }
+=======
+            std::getline(istream, str);
+            line = new Line(str);
+            invoker->invoke(line);
+>>>>>>> db494945ff30ef6d203725f23de0e7e8e46b30eb
         }
     }
 };

@@ -1,29 +1,29 @@
 #include <iostream>
-#include "proto/stack.h"
+#include "proto/Stack.h"
 
-stack::stack(int length)
+Stack::Stack(int length)
 {
     top = -1;
     this->length = length;
     data = new char[length];
 }
 
-stack::~stack()
+Stack::~Stack()
 {
     delete data;
     data = nullptr;
 }
 
-bool stack::empty()
+bool Stack::empty()
 {
     return top == -1;
 }
 
-void stack::print(std::ostream &ostream)
+void Stack::print(std::ostream &ostream)
 {
     if (empty())
     {
-        ostream << "Stack is empty" << std::endl;
+        ostream << "Stack is empty";
         return;
     }
 
@@ -32,10 +32,9 @@ void stack::print(std::ostream &ostream)
         char e = data[i];
         ostream << e << " ";
     }
-    ostream << std::endl;
 }
 
-char stack::pop()
+char Stack::pop()
 {
     char b = data[top];
     data[top--] = '\0';
@@ -43,7 +42,7 @@ char stack::pop()
     return b;
 }
 
-bool stack::pop(char &out)
+bool Stack::pop(char &out)
 {
     if (empty())
         return 0;
@@ -52,7 +51,7 @@ bool stack::pop(char &out)
     return 1;
 }
 
-bool stack::push(char value)
+bool Stack::push(char value)
 {
     if (top != length - 1)
     {

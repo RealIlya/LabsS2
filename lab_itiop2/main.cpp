@@ -1,12 +1,9 @@
 #include <stdio.h>
 #include <iostream>
-#include "commander/Command.cpp"
-#include "commander/Executor.cpp"
-#include "commander/Handler.cpp"
-#include "mode.cpp"
-#include "commands.cpp"
-#include "queue.cpp"
-#include "stack.cpp"
+#include "commander/Line.cpp"
+#include "Stack.cpp"
+#include "Queue.cpp"
+#include "Terminal.cpp"
 #include "myhandler.cpp"
 
 int main()
