@@ -2,10 +2,48 @@
 #include "proto/queue.h"
 #include "proto/stack.h"
 
+#include "commander/Tail.h"
+#include "commander/Receiver.h"
+
+#include <map>
+
+const std::string comPointer = "^";
+
+std::string invokers[] = {"sw", "push", "pop", "mt", "prnt", "ext"};
+std::string keys[] = {"help"};
+
+std::string helps[] = 
+{
+    "[-help] <args: st, qu> to switch a mode on stack, queue",
+    "[-help] <char> to push into",
+    "[-help] to pop from",
+    "[-help] to check is empty",
+    "[-help] to print in output stream",
+    "[-help] to exit the program"
+};
+
+std::map<std::string, std::string> map;
+void create()
+{
+    for (int i = 0; i < helps->length(); i++)
+    {
+        helps[i].replace(helps[i].find(comPointer), comPointer.length(), invokers[i]);
+    }
+
+    for (int i = 0; i < helps->length(); i++)
+    {
+        map[invokers[i]] = helps[i];
+    }
+    
+}
+
+
 Commands::Commands(std::ostream &ostream, std::istream &istream) : ostream{ostream}, istream{istream}
 {
     mode = Mode::Value::queue;
     ostream << "Input command (help for help) >> ";
+
+    new Tail(new Receiver() {});
 }
 
 Commands::~Commands()
@@ -17,24 +55,15 @@ Commands::~Commands()
 void Commands::help_Command()
 {
     ostream << "Now mode is the " << mode.toString() << std::endl;
-    ostream << "switch to switch a mode\n"
-            << "push to push an elem\n"
-            << "pop to pop an elem\n"
-            << "empty to check empty\n"
-            << "print to print a sequence\n"
-            << "ext to terminate program" << std::endl;
 }
 
 void Commands::switchMode_Command()
 {
-    ostream << "Input st to switch mode on stack or\n"
-            << "input qu to switch mode on queue >> ";
     std::string com;
     istream >> com;
 
     if (com == "st" || com == "qu")
     {
-        ostream << "Input size >> " << std::endl;
         int size;
         istream >> size;
         if (com == "st")
@@ -57,7 +86,6 @@ void Commands::switchMode_Command()
 void Commands::push_Command()
 {
     char elem;
-    ostream << "Input a char to push >> ";
     istream >> elem;
     operations->push(elem);
 }
@@ -75,4 +103,9 @@ void Commands::checkEmpty_Command()
 void Commands::print_Command()
 {
     operations->print(ostream);
+}
+
+bool Commands::checkStopCommand(std::string command)
+{
+    return command == stopCommand;
 }

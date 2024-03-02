@@ -17,6 +17,8 @@ protected:
 
     struct operations *operations;
 
+    const std::string stopCommand = "ext";
+
 public:
     Commands(std::ostream &ostream, std::istream &istream);
     ~Commands();
@@ -27,6 +29,10 @@ public:
     void pop_Command();
     void checkEmpty_Command();
     void print_Command();
+
+    void getCommands();
+
+    bool checkStopCommand(std::string command);
 };
 
 #endif

@@ -1,8 +1,7 @@
-#include "commander/Command.h"
 #include "commander/Handler.h"
 #include "proto/commands.h"
 
-class MyHandler : public Handler<std::string>
+class MyHandler : public Handler
 {
     std::ostream &ostream;
     std::istream &istream;
@@ -20,7 +19,7 @@ public:
         commands = nullptr;
     }
 
-    void start(std::string stopCommand)
+    void start() override
     {
         executor->addCommand("help", new Command(std::bind(&Commands::help_Command, commands)));
         executor->addCommand("switch", new Command(std::bind(&Commands::switchMode_Command, commands)));
@@ -34,10 +33,10 @@ public:
         while (true)
         {
             istream >> command;
-            if (command == stopCommand)
+            if (commands->checkStopCommand(command))
                 break;
 
-            if (!executeCommand(command))
+            if (!executor->executeCommand(command))
             {
                 ostream << "Incorrect command, try again >> ";
             }

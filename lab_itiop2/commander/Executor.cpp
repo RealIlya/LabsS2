@@ -1,32 +1,47 @@
 #include "Executor.h"
 
-template <typename T>
-Executor<T>::Executor()
+#include <vector>
+
+Executor::Executor()
 {
-    commands = new std::map<T, Command *>();
+    commands = new std::map<std::string, Tail *>();
 }
 
-template <typename T>
-Executor<T>::~Executor()
+Executor::~Executor()
 {
     delete commands;
     commands = nullptr;
 }
 
-template <typename T>
-void Executor<T>::addCommand(T condition, Command *command)
+void Executor::addCommand(std::string head, Tail *command)
 {
-    commands->insert({condition, command});
+    commands->insert({head, command});
 }
 
-template <typename T>
-bool Executor<T>::executeCommand(T call)
+bool Executor::executeCommand(std::string line)
 {
-    if (commands->count(call))
+    std::vector<std::string> lines = split(line);
+    std::string head;
+
+    if (commands->count(head))
     {
-        commands->at(call)->execute();
+        commands->at(head)->execute({});
         return 1;
     }
 
     return 0;
+}
+
+std::vector<std::string> split(std::string s, std::string del = " ")
+{
+    std::vector<std::string> result;
+    int start, end = -1 * del.size();
+    do
+    {
+        start = end + del.size();
+        end = s.find(del, start);
+        result.push_back(s.substr(start, end - start));
+    } while (end != -1);
+
+    return result;
 }

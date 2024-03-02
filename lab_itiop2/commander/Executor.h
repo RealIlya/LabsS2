@@ -1,19 +1,19 @@
 #ifndef EXECUTOR_H
 #define EXECUTOR_H
 #include <map>
-#include "Command.h"
+#include "Tail.h"
 
-template <typename T>
 class Executor
 {
-    std::map<T, Command *> *commands;
+    // head: tail
+    std::map<std::string, Tail *> *commands;
 
 public:
     Executor();
     ~Executor();
 
-    void addCommand(T condition, Command *command);
-    bool executeCommand(T call);
+    void addCommand(std::string head, Tail *command);
+    bool executeCommand(std::string head);
 };
 
 #endif

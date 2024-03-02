@@ -14,7 +14,7 @@ int main()
     std::ostream &ostream = std::cout;
     std::istream &istream = std::cin;
     MyHandler *myHandler = new MyHandler(ostream, istream);
-    myHandler->start("ext");
+    myHandler->start();
 
     return 0;
 }
