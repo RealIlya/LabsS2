@@ -1,4 +1,4 @@
-#include "proto/Mode.h"
+#include "proto/mode.h"
 
 Mode::Mode(char c)
 {

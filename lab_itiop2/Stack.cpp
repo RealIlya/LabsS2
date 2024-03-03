@@ -53,11 +53,8 @@ bool Stack::pop(char &out)
 
 bool Stack::push(char value)
 {
-    if (top != length - 1)
-    {
-        data[++top] = value;
-        return 1;
-    }
-
-    return 0;
+    if (top == length - 1)
+        return 0;
+    data[++top] = value;
+    return 1;
 }

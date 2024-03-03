@@ -20,6 +20,8 @@ public:
         while (true)
         {
             std::getline(istream, str);
+            if (str.empty())
+                continue;
             line = new Line(str);
             if (!invoker->invoke(line))
                 break;

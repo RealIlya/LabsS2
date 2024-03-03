@@ -34,12 +34,20 @@ void Queue::print(std::ostream &ostream)
 
 char Queue::pop()
 {
-    char b = data[beg];
+    char buffedElement = data[beg];
     data[beg] = '\0';
 
     // in case of pseudo-fulness
-    if (end == length - 1)
+
+    // TODO: underdone
+    if (beg != 0 && end == length - 1)
     {
+        for (int i = beg; i < length; i++)
+        {
+            char buffer = data[i];
+            data[i] = '\0';
+            data[i - beg] = buffer;
+        }
     }
 
     if (beg == end)
@@ -49,7 +57,7 @@ char Queue::pop()
     }
     else
         beg++;
-    return b;
+    return buffedElement;
 }
 
 bool Queue::pop(char &out)
@@ -65,7 +73,6 @@ bool Queue::push(char value)
 {
     if (end == length - 1)
         return 0;
-    end++;
-    data[end] = value;
+    data[++end] = value;
     return 1;
 }

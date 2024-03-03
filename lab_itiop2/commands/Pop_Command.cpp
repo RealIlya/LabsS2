@@ -7,6 +7,7 @@ public:
 
     void execute()
     {
-        os << operations->pop() << std::endl;
+        char elem;
+        os << (operations->pop(elem) ? elem : '\0') << std::endl;
     }
 };

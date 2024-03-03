@@ -9,7 +9,7 @@ class Line : public ILine
 private:
     std::string invoker;
     std::vector<std::string> *keys;
-    char *body;
+    std::vector<char> *body;
 
     std::vector<std::string> *splitString(std::string string);
 
@@ -19,7 +19,7 @@ public:
 
     std::string getInvoker();
     std::vector<std::string> *getKeys();
-    char *getBody();
+    std::vector<char> *getBody();
 };
 
 #endif

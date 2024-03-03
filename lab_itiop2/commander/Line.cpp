@@ -30,7 +30,7 @@ Line::Line(std::string str)
     std::string invoker = parts->at(0);
 
     std::vector<std::string> *keys = new std::vector<std::string>;
-    char *body = new char;
+    std::vector<char> *body = new std::vector<char>;
     int k = 1;
     for (; k < parts->size(); k++)
     {
@@ -42,7 +42,10 @@ Line::Line(std::string str)
 
     if (parts->size() != k)
     {
-        *body = parts->back().back();
+        for (int i = k; i < parts->size(); i++)
+        {
+            body->push_back(parts->at(i).back());
+        }
     }
     else
         body = nullptr;
@@ -70,7 +73,7 @@ std::vector<std::string> *Line::getKeys()
     return keys;
 }
 
-char *Line::getBody()
+std::vector<char> *Line::getBody()
 {
     return body;
 }

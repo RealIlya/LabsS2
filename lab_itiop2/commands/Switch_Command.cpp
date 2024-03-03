@@ -1,4 +1,4 @@
-#include "../proto/Mode.h"
+#include "../proto/mode.h"
 #include "../proto/Stack.h"
 #include "../proto/Queue.h"
 #include "_BaseCommand.cpp"
@@ -23,7 +23,7 @@ public:
             os << "Input length of queue >> ";
             is >> length;
             *bufferedOperations = new Queue(length);
-            os << "Changed" << std::endl;
+            os << "Switched" << std::endl;
         }
         else if (*mode == Mode::Value::stack)
         {
@@ -31,7 +31,7 @@ public:
             os << "Input length of stack >> ";
             is >> length;
             *bufferedOperations = new Stack(length);
-            os << "Changed" << std::endl;
+            os << "Switched" << std::endl;
         }
         else
         {
