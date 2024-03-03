@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "commander/Line.cpp"
+#include "Mode.cpp"
 #include "Stack.cpp"
 #include "Queue.cpp"
 #include "Terminal.cpp"

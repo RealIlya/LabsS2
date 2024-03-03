@@ -15,7 +15,10 @@ private:
     Value value;
 
 public:
+    Mode(char c);
+
     Mode *operator=(Value value);
+    bool operator==(Value value);
     std::string toString();
 };
 

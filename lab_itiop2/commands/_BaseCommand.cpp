@@ -1,5 +1,5 @@
-#include "/home/howgeed/TheHole/LabsS2/lab_itiop2/proto/IOperations.h"
-#include "/home/howgeed/TheHole/LabsS2/lab_itiop2/commander/ICommand.h"
+#include "../proto/IOperations.h"
+#include "../commander/ICommand.h"
 #include <ostream>
 #pragma once
 
@@ -10,10 +10,14 @@ protected:
     std::ostream &os;
 
 public:
+    _BaseCommand(std::ostream &os) : _BaseCommand{nullptr, os} {}
     _BaseCommand(IOperations *operations, std::ostream &os) : operations{operations}, os{os} {}
     ~_BaseCommand()
     {
-        delete operations;
-        operations = nullptr;
+        if (operations != nullptr)
+        {
+            delete operations;
+            operations = nullptr;
+        }
     }
 };
