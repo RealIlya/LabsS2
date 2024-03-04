@@ -18,6 +18,7 @@ public:
     bool pop(char &out) override;
     char pop() override;
     bool push(char value) override;
+    void clear() override;
 };
 
 #endif

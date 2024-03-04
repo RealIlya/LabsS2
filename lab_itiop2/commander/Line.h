@@ -1,8 +1,6 @@
 #ifndef LINE_H
 #define LINE_H
 #include "ILine.h"
-#include <string>
-#include <vector>
 
 class Line : public ILine
 {

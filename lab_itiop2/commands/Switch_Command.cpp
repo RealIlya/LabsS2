@@ -1,8 +1,8 @@
+#include <istream>
 #include "../proto/mode.h"
 #include "../proto/Stack.h"
 #include "../proto/Queue.h"
 #include "_BaseCommand.cpp"
-#include <istream>
 
 class Switch_Command : public _BaseCommand
 {

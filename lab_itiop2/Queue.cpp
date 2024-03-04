@@ -7,6 +7,8 @@ Queue::Queue(int length)
     end = -1;
     this->length = length;
     data = new char[length];
+    for (int i = 0; i < length; i++)
+        data[i] = '\0';
 }
 
 Queue::~Queue()
@@ -35,20 +37,7 @@ void Queue::print(std::ostream &ostream)
 char Queue::pop()
 {
     char buffedElement = data[beg];
-    data[beg] = '\0';
-
-    // in case of pseudo-fulness
-
-    // TODO: underdone
-    if (beg != 0 && end == length - 1)
-    {
-        for (int i = beg; i < length; i++)
-        {
-            char buffer = data[i];
-            data[i] = '\0';
-            data[i - beg] = buffer;
-        }
-    }
+    data[beg] = '\'';
 
     if (beg == end)
     {
@@ -56,7 +45,9 @@ char Queue::pop()
         end = -1;
     }
     else
+    {
         beg++;
+    }
     return buffedElement;
 }
 
@@ -72,7 +63,31 @@ bool Queue::pop(char &out)
 bool Queue::push(char value)
 {
     if (end == length - 1)
-        return 0;
+    {
+        // in case of pseudo-fulness
+        if (beg != 0)
+        {
+            for (int i = beg; i < length; i++)
+            {
+                char buffer = data[i];
+                data[i] = '\0';
+                data[i - beg] = buffer;
+            }
+            end -= beg;
+            beg = 0;
+        }
+        else
+            return 0;
+    }
     data[++end] = value;
     return 1;
+}
+
+void Queue::clear()
+{
+    for (int i = 0; i < length; i++)
+        data[i] = '\0';
+
+    beg = 0;
+    end = -1;
 }

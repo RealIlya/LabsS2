@@ -8,6 +8,10 @@ public:
     void execute()
     {
         char elem;
-        os << (operations->pop(elem) ? elem : '\0') << std::endl;
+        if (operations->pop(elem))
+            os << elem;
+        else
+            os << "Empty";
+        os << std::endl;
     }
 };

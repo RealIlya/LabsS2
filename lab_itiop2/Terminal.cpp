@@ -4,6 +4,7 @@
 #include "commands/Pop_Command.cpp"
 #include "commands/CheckIfEmpty_Command.cpp"
 #include "commands/Print_Command.cpp"
+#include "commands/Clear_Command.cpp"
 
 Terminal::Terminal(std::ostream &os, std::istream &is) : os{os}, is{is}
 {
@@ -55,17 +56,19 @@ bool Terminal::invoke(ILine *line)
         {
             if (keys->at(i) == "-help")
             {
-                os << "sw [<-keys>] <value>\nto switch current sequence to another\n\n\t[-help] for help\n\nUse 's' to set stack state\nUse 'q' to set queue state" << std::endl;
+                os << "sw [-<keys>] <value>\n  to switch current sequence to another\n\n    [-help] for help\n\nUse 's' to set a stack state\nUse 'q' to set a queue state" << std::endl;
                 return true;
             }
         }
         if (!body)
         {
-            os << "sw [<-keys>] <value>\nto switch current sequence to another\n\n\t[-help] for help\n\nUse 's' to set stack state\nUse 'q' to set queue state" << std::endl;
+            os << "sw [-<keys>] <value>\n  to switch current sequence to another\n\n    [-help] for help\n\nUse 's' to set a stack state\nUse 'q' to set a queue state" << std::endl;
             return true;
         }
         if (body->size() == 1)
             command = new Switch_Command(&operations, os, is, new Mode(body->back()));
+        else
+            os << "Incorrect input!" << std::endl;
     }
     else if (invoker == "psh")
     {
@@ -73,14 +76,13 @@ bool Terminal::invoke(ILine *line)
         {
             if (keys->at(i) == "-help")
             {
-                os << "psh [<-keys>] <values>\nto push element(s) to the current sequence\n\n\t[-help] for help" << std::endl;
+                os << "psh [-<keys>] <values>\n  to push element(s) to the current sequence\n\n    [-help] for help" << std::endl;
                 return true;
             }
         }
-
         if (!body)
         {
-            os << "psh [<-keys>] <values>\nto push element(s) to the current sequence\n\n\t[-help] for help" << std::endl;
+            os << "psh [-<keys>] <values>\n  to push element(s) to the current sequence\n\n    [-help] for help" << std::endl;
             return true;
         }
         command = new Push_Command(operations, os, body);
@@ -91,7 +93,7 @@ bool Terminal::invoke(ILine *line)
         {
             if (keys->at(i) == "-help")
             {
-                os << "pop [<-keys>]\n\tto pop element from the current sequence\n\n\t-help for help" << std::endl;
+                os << "pop [-<keys>] <count>\n  to pop element from the current sequence\n\n    [-help] for help\n\nBy default, count = 1" << std::endl;
                 return true;
             }
         }
@@ -103,7 +105,7 @@ bool Terminal::invoke(ILine *line)
         {
             if (keys->at(i) == "-help")
             {
-                os << "mt [<-keys>p]\n\tto check if the current sequence is empty\n\n\t-help for help" << std::endl;
+                os << "mt [-<keys>]\n  to check if the current sequence is empty\n\n    [-help] for help" << std::endl;
                 return true;
             }
         }
@@ -115,11 +117,23 @@ bool Terminal::invoke(ILine *line)
         {
             if (keys->at(i) == "-help")
             {
-                os << "mt [<-keys>]\n\tto check if the current sequence is empty\n\n\t-help for help" << std::endl;
+                os << "mt [-<keys>]\n  to print the current sequence in an output stream\n\n    [-help] for help" << std::endl;
                 return true;
             }
         }
         command = new Print_Command(operations, os);
+    }
+    else if (invoker == "cl")
+    {
+        for (int i = 0; i < keys->size(); i++)
+        {
+            if (keys->at(i) == "-help")
+            {
+                os << "cl [-<keys>]\n  to clear the current sequence\n\n    [-help] for help" << std::endl;
+                return true;
+            }
+        }
+        command = new Clear_Command(operations, os);
     }
     else if (invoker == "ext")
     {

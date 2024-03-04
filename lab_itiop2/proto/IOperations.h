@@ -11,6 +11,7 @@ public:
     virtual char pop() = 0;
     virtual bool pop(char &out) = 0;
     virtual bool push(char value) = 0;
+    virtual void clear() = 0;
 };
 
 #endif

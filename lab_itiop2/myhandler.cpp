@@ -1,7 +1,6 @@
 #include "commander/Line.h"
 #include "proto/Terminal.h"
 #include "proto/Stack.h"
-#include <iostream>
 
 class MyHandler
 {

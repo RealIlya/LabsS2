@@ -6,6 +6,8 @@ Stack::Stack(int length)
     top = -1;
     this->length = length;
     data = new char[length];
+    for (int i = 0; i < length; i++)
+        data[i] = '\0';
 }
 
 Stack::~Stack()
@@ -37,7 +39,7 @@ void Stack::print(std::ostream &ostream)
 char Stack::pop()
 {
     char b = data[top];
-    data[top--] = '\0';
+    data[top--] = '\'';
 
     return b;
 }
@@ -55,6 +57,15 @@ bool Stack::push(char value)
 {
     if (top == length - 1)
         return 0;
+
     data[++top] = value;
     return 1;
+}
+
+void Stack::clear()
+{
+    for (int i = 0; i < length; i++)
+        data[i] = '\0';
+    
+    top = -1;
 }

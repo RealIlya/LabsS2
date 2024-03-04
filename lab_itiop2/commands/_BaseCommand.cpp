@@ -1,6 +1,5 @@
 #include "../proto/IOperations.h"
 #include "../commander/ICommand.h"
-#include <ostream>
 #pragma once
 
 class _BaseCommand : public ICommand

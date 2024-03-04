@@ -1,15 +1,14 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
+#include <istream>
 #include "../commander/ILine.h"
 #include "../commander/ICommand.h"
 #include "IOperations.h"
-#include <ostream>
-#include <istream>
 
 class Terminal
 {
 private:
-    std::vector<std::string> possibleCommands = {"sw", "psh", "pop", "mt", "prt", "ext"};
+    std::vector<std::string> possibleCommands = {"sw", "psh", "pop", "mt", "prt", "cl", "ext"};
     std::vector<ICommand *> *commands;
     IOperations *operations;
     std::ostream &os;
