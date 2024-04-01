@@ -1,6 +1,6 @@
 .vscode
-*/main
-*/*.exe
+main
+*.exe
+build
 testing
-
-!*/main.cpp
+/Commander
