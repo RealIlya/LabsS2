@@ -1,9 +1,4 @@
-#include <stdio.h>
 #include <iostream>
-#include "commander/Line.cpp"
-#include "Stack.cpp"
-#include "Tree.cpp"
-#include "Terminal.cpp"
 #include "myhandler.cpp"
 
 int main()
