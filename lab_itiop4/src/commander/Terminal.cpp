@@ -1,4 +1,5 @@
 #include "Terminal.hpp"
+#include "Add_Command.hpp"
 
 Terminal::CommandText::CommandText(char shortOption, std::string longOption, std::string text)
 {
@@ -19,15 +20,15 @@ Terminal::CommandText::~CommandText()
     text.clear();
 }
 
-Terminal::Terminal()
+Terminal::Terminal(std::ostream &os, std::istream &is) : os{os}, is{is}, table{new Table(64)}
 {
-    commands = new std::vector<std::string>{"add", "ext"};
+    commands = new std::vector<std::string>{"add", "prt", "ext"};
     commandsWithText = {
         {"add", {
-                    {'h', "help", "add [options] <new-value>\n\tTo add the value to the table"},
+                    {"help", "add [options] <new-value>\n\tTo add the value to the table"},
                 }},
         {"ext", {
-                    {'h', "help", "ext\n\tTo exit the program"},
+                    {"help", "ext\n\tTo exit the program"},
                 }}};
 }
 
@@ -39,12 +40,8 @@ Terminal::~Terminal()
 std::string Terminal::getCommandText(std::vector<CommandText> &options, std::string option)
 {
     for (CommandText commandText : options)
-    {
         if (commandText.compare(option))
-        {
             return commandText.text;
-        }
-    }
 
     return "";
 }
@@ -57,23 +54,33 @@ int Terminal::invoke(ILine *line)
     std::vector<std::string> *longOptions = line->getLongOptions();
     std::vector<std::string> *body = line->getBody();
 
-    for (int i = 0; i < longOptions->size(); i++)
-    {
-        std::string commandText = getCommandText(commandsWithText[invoker], longOptions->at(i));
-        if (!commandText.empty())
-        {
-        }
-    }
-
     if (invoker == "add")
     {
+        // for (int i = 0; i < longOptions->size(); i++)
+        // {
+        //     std::string text = commandsWithText.at(invoker).at(longOptions->at(i));
+        //     // os << text;
+        // }
+
+        if (body->size() == 2)
+        {
+            os << body->size() << std::endl;
+            command = new Add_Command(table, body->at(0), std::stof(body->at(1)));
+        }
+    }
+    else if (invoker == "prt")
+    {
+        os << table->toString() << std::endl;
     }
     else if (invoker == "ext")
-    {
-    }
+        return false;
     else
     {
         // does not exist
         return true;
     }
+
+    if (command)
+        command->execute();
+    return true;
 }

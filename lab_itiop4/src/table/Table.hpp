@@ -11,6 +11,9 @@ private:
         float value;
 
         TableNode(std::string key, float value);
+
+    public:
+        std::string toString();
     } typedef TableNode;
 
     constexpr static const float rehashSize = 0.75;
@@ -25,10 +28,11 @@ private:
     void resize();
 
 public:
-    Table();
+    Table(int size);
     ~Table();
 
     bool add(std::string key, float value);
+    std::string toString();
 };
 
 #endif

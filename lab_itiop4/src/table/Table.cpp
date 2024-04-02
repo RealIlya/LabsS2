@@ -2,9 +2,14 @@
 
 Table::TableNode::TableNode(std::string key, float value) : key{key}, value{value} {}
 
-Table::Table()
+std::string Table::TableNode::toString()
 {
-    size = defaultSize;
+    return key + ": " + std::to_string(value);
+}
+
+Table::Table(int size)
+{
+    this->size = size;
     fulness = 0;
     elems = new Table::TableNode *[size];
     for (int i = 0; i < size; i++)
@@ -71,4 +76,14 @@ bool Table::add(std::string key, float value)
     elems[index] = new TableNode(key, value);
     fulness++;
     return true;
+}
+
+std::string Table::toString()
+{
+    std::string result;
+    for (int i = 0; i < size; i++)
+        if (elems[i])
+            result += elems[i]->toString() + "\n";
+
+    return result;
 }

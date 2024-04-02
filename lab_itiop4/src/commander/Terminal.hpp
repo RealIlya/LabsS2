@@ -2,7 +2,9 @@
 #define TERMINAL_HPP
 #include "../../include/commander/ITerminal.hpp"
 #include "../table/Table.hpp"
-#include <map>
+#include <unordered_map>
+#include <ostream>
+#include <istream>
 
 class Terminal : public ITerminal
 {
@@ -20,13 +22,16 @@ private:
     } typedef CommandText;
 
     std::vector<std::string> *commands;
-    std::map<std::string, std::vector<CommandText>> commandsWithText;
+    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> commandsWithText;
     Table *table;
+
+    std::ostream &os;
+    std::istream &is;
 
     std::string getCommandText(std::vector<CommandText> &options, std::string option);
 
 public:
-    Terminal();
+    Terminal(std::ostream &os, std::istream &is);
     ~Terminal();
     int invoke(ILine *line) override;
 };
