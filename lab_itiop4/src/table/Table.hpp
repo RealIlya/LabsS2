@@ -8,30 +8,25 @@ private:
     struct TableNode
     {
         std::string key;
-        float value;
+        double value;
 
-        TableNode(std::string key, float value);
+        TableNode(std::string key, double value);
 
-    public:
         std::string toString();
     } typedef TableNode;
 
-    constexpr static const float rehashSize = 0.75;
-    static const int defaultSize = 64;
-    int size;
-    int fulness;
-    TableNode **elems;
+    int _size;
+    int _fulness;
+    TableNode **_elems;
 
-    int getHash(std::string key);  // max key size is 15 chars
-    int getIndex(std::string key); // max key size is 15 chars
-
-    void resize();
+    int getHash(std::string key, bool h); // max key size is 15 chars
+    int getIndex(std::string key);        // max key size is 15 chars
 
 public:
     Table(int size);
     ~Table();
 
-    bool add(std::string key, float value);
+    double add(std::string key, double value);
     std::string toString();
 };
 

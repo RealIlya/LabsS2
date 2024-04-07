@@ -40,8 +40,6 @@ write_basic_package_version_file("${PROJECT_BINARY_DIR}/LabConfigVersion.cmake"
 
 install(FILES "${PROJECT_BINARY_DIR}/LabConfigVersion.cmake" DESTINATION share/Lab/cmake)
 
-add_subdirectory(src)
-
 if(NOT MTEST)
     message(STATUS "Module testing of Lab is disabled")
 elseif(IS_SUBPROJECT)
@@ -50,4 +48,5 @@ elseif(NOT MCON)
     message(STATUS "Console app of Lab is disabled")
 else()
     add_subdirectory(test)
+    add_subdirectory(src)
 endif()

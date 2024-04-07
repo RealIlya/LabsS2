@@ -1,4 +1,4 @@
-add_executable(labUnitTest table/Table.cpp main.cpp)
+add_executable(labUnitTest table/Table.cpp table/OrderedTable.cpp main.cpp)
 
 target_link_libraries(labUnitTest 
     PRIVATE Lab::lab

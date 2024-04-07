@@ -8,12 +8,16 @@ int main()
     std::istream &is = std::cin;
     Terminal *terminal = new Terminal(os, is);
     Line *line;
-    do
+    std::string input;
+    while (true)
     {
-        std::string input;
-        is >> input;
+        std::getline(is, input);
+        if (input.empty())
+            continue;
         line = new Line(input);
-    } while (terminal->invoke(line));
+        if (!terminal->invoke(line))
+            break;
+    }
 
-    return EXIT_SUCCESS;
+    return 0;
 }

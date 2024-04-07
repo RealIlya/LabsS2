@@ -8,10 +8,10 @@ class Add_Command : public ICommand
 private:
     Table *table;
     std::string key;
-    float value;
+    double value;
 
 public:
-    Add_Command(Table *table, std::string key, float value);
+    Add_Command(Table *table, std::string key, double value);
     ~Add_Command();
 
     void execute() override;

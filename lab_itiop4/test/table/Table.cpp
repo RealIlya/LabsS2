@@ -1,91 +1,67 @@
 #include "Table.hpp"
 
-Table::TableNode::TableNode(std::string key, float value) : key{key}, value{value} {}
+Table::TableNode::TableNode(std::string key, double value) : key{key}, value{value} {}
 
-Table::Table()
+std::string Table::TableNode::toString()
 {
-    size = defaultSize;
-    fulness = 0;
-    elems = new Table::TableNode *[size];
-    for (int i = 0; i < size; i++)
-    {
-        elems[i] = nullptr;
-    }
+    return key + ": " + std::to_string(value);
+}
+
+Table::Table(int size) : _size{size + 1}, _fulness{0}
+{
+    _elems = new Table::TableNode *[_size];
+    for (int i = 0; i < _size; i++)
+        _elems[i] = nullptr;
 }
 
 Table::~Table()
 {
-    delete[] elems;
-    elems = nullptr;
+    delete[] _elems;
+    _elems = nullptr;
 }
 
-int Table::getHash(std::string key)
+int Table::getHash(std::string key, bool h)
 {
     int hash = 0;
-    for (int i = 0; i < key.length(); i++)
-        hash = (hash << 5) - hash + key.at(i);
+    for (int i = 0; i < key.size(); i++)
+        hash = (hash << 5) - hash + int(pow(-1, h)) * key[i];
 
     return abs(hash);
 }
 
 int Table::getIndex(std::string key)
 {
-    return getHash(key) % size;
+    return getHash(key, 0) % _size;
 }
 
-void Table::resize()
+double Table::add(std::string key, double value)
 {
-    int sizeBuffer = size;
-    size *= 2;
-    fulness = 0;
-    TableNode **elems2 = new TableNode *[size];
-
-    for (int i = 0; i < size; i++)
-        elems2[i] = nullptr;
-
-    std::swap(elems, elems2);
-
-    for (int i = 0; i < sizeBuffer; i++)
-        if (elems2[i])
-            add(elems2[i]->key, elems2[i]->value);
-
-    delete[] elems2;
-}
-
-// void Table::rehash()
-// {
-//     fulness = 0;
-//     TableNode **elems2 = new TableNode *[size];
-
-//     for (int i = 0; i < size; i++)
-//         elems2[i] = nullptr;
-
-//     std::swap(elems, elems2);
-
-//     for (int i = 0; i < size; i++)
-//         if (elems2[i])
-//             add(elems2[i]->value);
-
-//     delete[] elems2;
-// }
-
-float Table::add(std::string key, float value)
-{
-    // if (fulness + 1 > int(size * rehashSize))
-    //     resize();
+    if (_fulness >= _size - 1)
+        return false;
 
     int index = getIndex(key);
 
-    // in case key collision, do not add value
-    for (int i = 0; elems[index] != nullptr && i < size; i++)
+    for (int i = 0; i < _size; i++)
     {
-        if (elems[index]->key == key)
+        if (!_elems[index])
         {
-            return false;
+            _elems[index] = new TableNode(key, value);
+            _fulness++;
+            return value;
         }
+
+        index = (getHash(key, 0) + i * getHash(key, 1)) % _size;
     }
 
-    elems[index] = new TableNode(key, value);
-    fulness++;
-    return value;
+    return NAN;
+}
+
+std::string Table::toString()
+{
+    std::string result;
+    for (int i = 0; i < _size; i++)
+        if (_elems[i])
+            result += _elems[i]->toString() + "\n";
+
+    return result;
 }

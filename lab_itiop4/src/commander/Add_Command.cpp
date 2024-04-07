@@ -1,11 +1,6 @@
 #include "Add_Command.hpp"
 
-Add_Command::Add_Command(Table *table, std::string key, float value)
-{
-    this->table = table;
-    this->key = key;
-    this->value = value;
-}
+Add_Command::Add_Command(Table *table, std::string key, double value) : table{table}, key{key}, value{value} {}
 
 Add_Command::~Add_Command()
 {

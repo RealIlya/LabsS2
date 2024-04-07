@@ -36,7 +36,7 @@ Line::Line(std::string str)
     for (int i = 0; i < parts->size(); i++)
     {
         std::string str = parts->at(i);
-        if (str.at(0) == '-' && str.at(1) != '-')
+        if (str.at(0) == '-' && str.at(1) != '-' && !isdigit(str.at(1)))
         {
             shortOptions->push_back(str.at(1));
             k++;

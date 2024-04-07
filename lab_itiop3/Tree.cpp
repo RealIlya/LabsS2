@@ -67,16 +67,29 @@ void Tree::add(float value)
 
 void Tree::print(std::ostream &os)
 {
-    std::function<void(Tree *, std::string, std::ostream &)> func;
-    func = [&](Tree *tree, std::string str, std::ostream &os)
+    // std::function<void(Tree *, std::string, std::ostream &)> func;
+
+    // func = [&](Tree *tree, std::string str, std::ostream &os)
+    // {
+    //     if (tree->right)
+    //         func(tree->right, str + "-", os);
+
+    //     os << str << tree->value << std::endl;
+
+    //     if (tree->left)
+    //         func(tree->left, str + "-", os);
+    // };
+
+    std::function<void(Tree *, std::string, std::ostream &)> func2;
+    func2 = [&](Tree *tree, std::string str, std::ostream &os)
     {
         if (tree->right)
-            func(tree->right, str + "-", os);
+            func2(tree->right, str, os);
 
-        os << str << tree->value << std::endl;
+        os << str << tree->value << ", ";
 
         if (tree->left)
-            func(tree->left, str + "-", os);
+            func2(tree->left, str, os);
     };
-    func(this, "", os);
+    func2(this, "", os);
 }
