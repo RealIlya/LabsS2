@@ -9,11 +9,17 @@ RES_DIR = resourses/
 all: build1 build2
 
 clean:
-	rm -rf $(RES_DIR) exe* *.o
+	rm -rf $(RES_DIR) exe* *.o def *.gch graph/*.gch graph/Stack/*.gch
 
 rebuild1: clean build1
 
 rebuild2: clean build2
+
+build_d: clean
+	mkdir -p resourses
+	$(CC) $(CFLAGS) defend* graph/Graph*
+	mv *.o *.gch graph/*.gch $(RES_DIR)
+	$(CC) $(RES_DIR)*.o $(LIBS) -o def
 
 build1:
 	mkdir -p resourses
