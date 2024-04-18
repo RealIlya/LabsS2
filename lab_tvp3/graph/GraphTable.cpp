@@ -46,55 +46,103 @@ void GraphTable::print() {
   }
 }
 
-/*#include "GraphTree.hpp"
-
-GraphTree::GraphTree() : _root{nullptr}, left{nullptr}, right{nullptr} {}
-
-GraphTree::~GraphTree() {
-  _root->~GraphNode();
-  delete _root;
-  _root = nullptr;
+int GraphTable::getMatrixIndex(GraphNode *gn) {
+  int result = 0;
+  for (int i = 0; i < _size; i++) {
+    if (_elems[i]) {
+      if (_elems[i] == gn) return result;
+      result++;
+    }
+  }
+  return result;
 }
 
-void *GraphTree::add(std::string key, std::string direction) {
-  if (!_root) {
-    _root = new GraphNode(key);
-    if (!direction.empty()) _root->add(direction);
-  } else {
-    GraphTree *cur = this;
-    GraphTree *buff = cur;
-    while (cur) {
-      buff = cur;
-      if (key != cur->_root->key) {
-        cur = key > cur->_root->key ? cur->left : cur->right;
-      } else
-        break;
+GraphNode *GraphTable::getMatrixElem(int index) {
+  int j = 0;
+  GraphNode *res = nullptr;
+  for (int i = 0; i < _size; i++) {
+    if (_elems[i]) {
+      if (index == j)
+        res = _elems[i];
+      else
+        j++;
     }
-    if (key == buff->_root->key) {
-      if (!direction.empty()) {
-        buff->_root->add(direction);
+  }
+  return res;
+}
+
+void GraphTable::just_do_something(int max_way_size) {
+  int **matrix = new int *[_fulness], **start_matrix = new int *[_fulness],
+      **buf_matrix = new int *[_fulness];
+  int *good_graph_nodes = new int[_fulness];
+  for (size_t i = 0; i < _fulness; i++) {
+    good_graph_nodes[i] = 0;
+    matrix[i] = new int[_fulness];
+    start_matrix[i] = new int[_fulness];
+    buf_matrix[i] = new int[_fulness];
+    for (size_t j = 0; j < _fulness; j++) {
+      matrix[i][j] = 0;
+      start_matrix[i][j] = 0;
+      buf_matrix[i][j] = 0;
+    }
+  }
+  int mi = 0, mj = 0;
+  for (int i = 0; i < _size; i++) {
+    if (_elems[i]) {
+      mi = getMatrixIndex(_elems[i]);
+      GraphNode::Stack_g *buf = _elems[i]->gs;
+      while (buf->next) {
+        mj = getMatrixIndex(buf->value);
+        matrix[mi][mj] = 1;
+        start_matrix[mi][mj] = 1;
+        buf_matrix[mi][mj] = 1;
+        buf = buf->next;
       }
-    } else {
-      GraphNode *node = new GraphNode(key);
-      if (!direction.empty()) node->add(direction);
-      if (key > buff->_root->key) {
-        buff->left = new GraphTree();
-        buff->left->_root = node;
-      } else {
-        buff->right = new GraphTree();
-        buff->right->_root = node;
+    }
+  }
+  check(good_graph_nodes, matrix);
+  for (int i = 0; i < max_way_size; i++) {
+    calculateMatrix(matrix, start_matrix, buf_matrix);
+    check(good_graph_nodes, matrix);
+    for (size_t j = 0; j < _fulness; j++)
+      for (size_t k = 0; k < _fulness; k++) buf_matrix[j][k] = matrix[j][k];
+  }
+  mark(good_graph_nodes);
+  for (size_t i = 0; i < _fulness; i++) {
+    delete[] matrix[i];
+    delete[] start_matrix[i];
+    delete[] buf_matrix[i];
+  }
+  delete[] matrix;
+  delete[] start_matrix;
+  delete[] buf_matrix;
+}
+
+void GraphTable::calculateMatrix(int **res_matrix, int **matrix1,
+                                 int **matrix2) {
+  for (size_t i = 0; i < _fulness; i++) {
+    for (size_t j = 0; j < _fulness; j++) {
+      for (size_t k = 0; k < _fulness; k++) {
+        res_matrix[i][j] += matrix1[i][k] * matrix2[k][j];
       }
+      res_matrix[i][j] = (res_matrix[i][j] > 0) ? 1 : 0;
     }
   }
 }
 
-void GraphTree::print() {
-  if (_root) {
-    GraphTree *cur = this;
-    while (cur) {
-      _root->print();
-      if (cur->left) cur->left->print();
-      if (cur->right) cur->right->print();
+void GraphTable::check(int *good_graph_nodes, int **matrix) {
+  for (size_t i = 0; i < _fulness; i++)
+    if (matrix[i][i]) good_graph_nodes[i] = 1;
+}
+
+void GraphTable::mark(int *good_graph_nodes) {
+  for (int i = 0; i < _size; i++) {
+    if (_elems[i]) {
+      GraphNode::Stack_g *buf = _elems[i]->gs;
+      while (buf->next) {
+        if (good_graph_nodes[getMatrixIndex(buf->value)]) buf->marked = true;
+        buf = buf->next;
+      }
     }
   }
-}*/
+}

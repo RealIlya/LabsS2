@@ -3,21 +3,15 @@
 
 #include <iostream>
 
-// #include "Stack/Stack_g.hpp"
-
 struct GraphNode {
   std::string key;
   class Stack_g {
-   private:
-    GraphNode *value;
-    Stack_g *next;
-
    public:
     Stack_g();
     ~Stack_g();
-
-    // GraphNode *pop();
-    void print();
+    GraphNode *value;
+    Stack_g *next;
+    bool marked;
     bool contains(GraphNode *value);
     void push(GraphNode *value);
     int size();

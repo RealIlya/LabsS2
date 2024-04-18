@@ -15,8 +15,21 @@ void getStr(char *container) {
   }
 }
 
-int main() {  // int argv, char **args) {
-  // int max_way_size = (argv == 2) ? std::stoi(args[1]) : MAX_WAY_SIZE;
+/*for test:
+add 1 -> 2
+add 2 -> 3
+add 1 -> 7
+add 3 -> 4
+add 3 -> 6
+add 3 -> 7
+add 4 -> 5
+add 4 -> 6
+add 6 -> 1
+add 6 -> 3
+*/
+
+int main(int argv, char **args) {
+  int max_way_size = (argv == 2) ? std::stoi(args[1]) : MAX_WAY_SIZE;
   char command[STR_BUFFER];
   for (int i = 0; i < STR_BUFFER; i++) command[i] = 0;
   GraphTable *graph_table = new GraphTable(STR_BUFFER);
@@ -35,6 +48,8 @@ int main() {  // int argv, char **args) {
       }
     } else if (strcmp(command, "print") == 0) {
       graph_table->print();
+    } else if (strcmp(command, "JDS") == 0) {
+      graph_table->just_do_something(max_way_size);
     }
     getStr(command);
   }

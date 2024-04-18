@@ -1,6 +1,15 @@
 #include "GraphNode.hpp"
 
-GraphNode::GraphNode(std::string key) : key{key}, gs{nullptr} {}
+GraphNode::Stack_g::Stack_g() {
+  value = nullptr;
+  next = nullptr;
+  marked = false;
+}
+
+GraphNode::GraphNode(std::string key) {
+  this->key = key;
+  this->gs = new Stack_g();
+}
 
 GraphNode::~GraphNode() {
   if (gs) gs->~Stack_g();
@@ -15,19 +24,20 @@ void GraphNode::add(GraphNode *direction) {
 
 void GraphNode::print() {
   std::cout << "Вершина: " << key << std::endl;
-  if (gs) {
+  if (gs->next) {
     std::cout << gs->size() << " дуг исходящие из этой " << key
               << " вершины и входящие в вершины: ";
-    gs->print();
+    GraphNode::Stack_g *sg = gs;
+    while (sg->next) {
+      std::cout << " ";
+      if (sg->marked) std::cout << "~";
+      std::cout << sg->value->key;
+      sg = sg->next;
+    }
     std::cout << std::endl;
   } else {
     std::cout << "Нет дуг исходящих из этой вершины" << std::endl;
   }
-}
-
-GraphNode::Stack_g::Stack_g() {
-  value = nullptr;
-  next = nullptr;
 }
 
 GraphNode::Stack_g::~Stack_g() {
@@ -66,12 +76,4 @@ bool GraphNode::Stack_g::contains(GraphNode *value) {
   }
   if (sg->value == value) result = true;
   return result;
-}
-
-void GraphNode::Stack_g::print() {
-  GraphNode::Stack_g *sg = this;
-  while (sg->next) {
-    std::cout << " " << sg->value->key;
-    sg = sg->next;
-  }
 }
