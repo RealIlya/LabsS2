@@ -19,14 +19,13 @@ void initPetri(int **Dm, int **Dp, int *P) {
   P[2] = 1;
 }
 
-void removePetri(int **Dm, int **Dp, int *R) {
+void removePetri(int **Dm, int **Dp) {
   for (int i = 0; i < _TN_; i++) {
     delete Dm[i];
     delete Dp[i];
   }
   delete Dm;
   delete Dp;
-  delete R;
 }
 
 bool isAviable(int **Dm, int *P, int T) {
@@ -98,29 +97,33 @@ bool isPassed(int *P, std::vector<int *> *passed) {
   return res;
 }
 
-void removePt(int **Pt) {
-  for (size_t j = 0; j < _TN_; j++) delete Pt[j];
-  delete Pt;
+void removePassed(std::vector<int *> *passed) {
+  for (size_t j = 0; j < passed->size(); j++)
+    if (passed->at(j) != NULL) delete passed->at(j);
+  delete passed;
 }
 
+void rP(int **pt) { delete pt; }
+
 void Tree(int **Dm, int **Dp, int *P, std::vector<int *> *passed) {
-  int **Pt;
-  Pt = new int *[_TN_];
-  for (int j = 0; j < _TN_; j++) {
-    Pt[j] = new int(_PN_);
-    for (int i = 0; i < _PN_; i++) Pt[j][i] = 0;
-  }
+  int *Pt;
   for (int i = 0; i < _TN_ * 2; i++) {
     int n = i;
     i %= _TN_;
     if (isAviable(Dm, P, i)) {
+      Pt = new int(_PN_);
       if (i == 3) P[0] = -1;
       for (int j = 0; j < _PN_; j++) {
-        Pt[i][j] = P[j];
+        Pt[j] = P[j];
       }
-      if (!isPassed(P, passed)) passed->push_back(P);
-      step(Dm, Dp, Pt[i], i);
-      if (!isPassed(Pt[i], passed)) Tree(Dm, Dp, Pt[i], passed);
+      if (!isPassed(P, passed)) {
+        int *Pp = new int(_PN_);
+        for (int j = 0; j < _PN_; j++) Pp[j] = P[j];
+        passed->push_back(Pp);
+      }
+      step(Dm, Dp, Pt, i);
+      if (!isPassed(Pt, passed)) Tree(Dm, Dp, Pt, passed);
+      delete Pt;
     }
     i = n;
   }
@@ -146,6 +149,7 @@ int main() {
   std::vector<int *> *passed = new std::vector<int *>;
   std::cout << "\nДерево достижимости: \n";
   Tree(Dm, Dp, P, passed);
-  removePetri(Dm, Dp, P);
+  removePetri(Dm, Dp);
+  removePassed(passed);
   return 0;
 }
