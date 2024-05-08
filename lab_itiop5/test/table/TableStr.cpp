@@ -1,4 +1,5 @@
 #include "TableStr.hpp"
+#include <math.h>
 
 TableStr::TableNode::TableNode(std::string key, double value) : key{key}, value{value} {}
 
@@ -96,7 +97,7 @@ std::pair<int, int> TableStr::selectionSort()
         _sorted[i] = min;
     }
 
-    return std::pair(cmpN, swpN);
+    return std::pair<int, int>(cmpN, swpN);
 }
 
 std::string TableStr::toString()

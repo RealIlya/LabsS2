@@ -1,4 +1,5 @@
 #include "TableNum.hpp"
+#include <math.h>
 
 TableNum::TableNode::TableNode(int key, double value, std::string str) : key{key}, value{value}, str{str} {}
 
@@ -92,7 +93,7 @@ std::pair<int, int> TableNum::insertionSort()
         _sorted[j + 1] = elem;
     }
 
-    return std::pair(cmpN, swpN);
+    return std::pair<int, int>(cmpN, swpN);
 }
 
 std::string TableNum::toString()

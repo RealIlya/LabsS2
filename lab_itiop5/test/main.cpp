@@ -30,7 +30,7 @@ TEST_CASE("Table testing #1")
 
     MESSAGE("\n", tableStr->toString());
 
-    std::pair p(tableStr->selectionSort());
+    std::pair<int, int> p(tableStr->selectionSort());
     MESSAGE("\n", tableStr->toStringSorted());
 
     MESSAGE("\n", "Comparisons: ", p.first, " | Swaps: ", p.second);
@@ -47,7 +47,7 @@ TEST_CASE("Table testing #2")
 
     MESSAGE("\n", tableNum->toString());
 
-    std::pair p(tableNum->insertionSort());
+    std::pair<int, int> p(tableNum->insertionSort());
     MESSAGE("\n", tableNum->toStringSorted());
 
     MESSAGE("\n", "Comparisons: ", p.first, " | Swaps: ", p.second);
@@ -64,7 +64,7 @@ TEST_CASE("Table testing #3")
 
     MESSAGE("\n", tableStr->toString());
 
-    std::pair p(tableStr->selectionSort());
+    std::pair<int, int> p(tableStr->selectionSort());
     MESSAGE("\n", tableStr->toStringSorted());
 
     MESSAGE("\n", "Comparisons: ", p.first, " | Swaps: ", p.second);
